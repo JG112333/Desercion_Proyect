@@ -4,7 +4,17 @@ import os
 import boto3  # Importar boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError
 import utils.diccionario_handler as dh
-from config import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_DYNAMODB_TABLE
+
+
+# Leer las variables de entorno
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_DYNAMODB_TABLE = os.getenv('AWS_DYNAMODB_TABLE')
+
+# Comprobar si las variables están vacías
+if not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY or not AWS_DYNAMODB_TABLE:
+    raise ValueError("One or more AWS environment variables are not set.")
+
 
 # Conectar a DynamoDB con credenciales explícitas
 DYNAMO_TABLE = AWS_DYNAMODB_TABLE
