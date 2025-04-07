@@ -1,0 +1,80 @@
+{% extends './layout.html' %}
+
+{% block title %}Cargar Datos{% endblock %}
+
+{% block body %}
+<h1 class="text-center my-4">Cargar Archivo</h1>
+
+<!-- Mostrar mensaje de error si existe -->
+{% if mensaje_error %}
+<div class="alert alert-danger text-center fade-in" role="alert">
+    {{ mensaje_error }}
+</div>
+{% endif %}
+
+<!-- Pestañas para cambiar entre CSV y XLSX -->
+<div class="text-center mb-3">
+    <button class="btn-custom" id="btn-xlsx" onclick="mostrarFormulario('xlsx')">Subir XLSX</button>
+    <button class="btn-custom" id="btn-csv" onclick="mostrarFormulario('csv')">Subir CSV</button>
+</div>
+
+<!-- Formulario para subir archivo XLSX (por defecto visible) -->
+<div class="card p-4 shadow-sm" id="form-xlsx">
+    <form action="{{ url_for('xlsx_handler.procesar_xlsx') }}" method="post" enctype="multipart/form-data"
+        >
+        <div class="mb-3">
+            <label for="archivo_xlsx" class="form-label">Selecciona un archivo XLSX</label>
+            <input type="file" name="archivo_xlsx" id="archivo_xlsx" class="form-control" accept=".xlsx" required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn-custom">Cargar y Procesar</button>
+        </div>
+    </form>
+</div>
+
+<!-- Formulario para subir archivo CSV (oculto por defecto) -->
+<div class="card p-4 shadow-sm d-none" id="form-csv">
+    <form action="{{ url_for('csv_handler.procesar_csv') }}" method="post" enctype="multipart/form-data"
+        >
+        <div class="mb-3">
+            <label for="archivo_csv" class="form-label">Selecciona un archivo CSV</label>
+            <input type="file" name="archivo_csv" id="archivo_csv" class="form-control" accept=".csv" required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn-custom">Cargar y Procesar</button>
+        </div>
+    </form>
+</div>
+
+{% if archivo_generado %}
+<div class="text-center mt-5 fade-in">
+    <h2 class="mb-3">Descargar archivo procesado</h2>
+    {% if request.endpoint == 'csv_handler.procesar_csv' %}
+        <a id="btn-descargar" href="{{ url_for('csv_handler.descargar_csv') }}" class="btn-custom"> ⬇️ Descargar CSV</a>
+    {% elif request.endpoint == 'xlsx_handler.procesar_xlsx' %}
+        <a id="btn-descargar" href="{{ url_for('xlsx_handler.descargar_xlsx') }}" class="btn-custom"> ⬇️ Descargar XLSX</a>
+    {% endif %}
+</div>
+{% endif %}
+
+<!-- Contenedor del gráfico -->
+<div class="text-center mt-5" style="min-height: 300px;">
+    <h2>Gráfico de Deserción</h2>
+    <div class="image-container fade-in">
+        {% if img_b64 %}
+        <img src="data:image/png;base64,{{ img_b64 }}" alt="Gráfico de Deserción" class="img-fluid rounded shadow-sm">
+        {% else %}
+        <p class="text-muted">Aún no se ha generado el gráfico.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="text-center mt-4 fade-in">
+    <a href="/" class="btn btn-outline-secondary btn-volver">Volver a la página principal</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/switch_form.js') }}"></script>
+{% endblock %}

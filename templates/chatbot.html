@@ -1,0 +1,77 @@
+{% extends './layout.html' %}
+
+{% block title %}Chatbot{% endblock %}
+
+{% block CSS %}
+{{ super() }}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+
+
+{% block body %}
+
+<section class="text-center my-5 ">
+    <div class="row">
+        <!-- Sección 1: Chatbot (Izquierda) -->
+        <div class="col-md-8">
+            <h1 class="chat-title">Chat Inteligente</h1>
+            <p class="chat-description">Este asistente te ayudará a responder tus dudas.</p>
+
+            <div class="chat-container">
+                <div id="chat-box" class="chat-box">
+                    <!-- Mensajes del chat aparecerán aquí -->
+                </div>
+
+                <!-- Spinner GIF para mostrar mientras se espera la respuesta del bot -->
+                <div id="loading" style="display:none; text-align:center; min-height: 200px;">
+                    <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2o3ZGJqNGh1MXB6OGc1YzM2NWc0eTh2OTFqZzFtaXh5NWpxdms5ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/CytKuRG1UCciXh9SDx/giphy.gif"
+                        alt="Cargando...">
+                </div>
+
+                <form id="chat-form">
+                    <div style="display: flex; align-items: center; width: 100%; height: 50px;">
+                        <input type="text" id="user-message" placeholder="Escribe tu mensaje..." required
+                            style="flex-grow: 1; height: 100%; padding: 5px;">
+                        <button type="submit" class="btn-custom">Enviar</button>
+                    </div>
+                </form>
+
+                <!-- Botón de recargar conversación -->
+                <button id="reset-chat" class="reset-button">Recargar conversación</button>
+            </div>
+        </div>
+
+        <!-- Sección 2: Contenido adicional (Derecha) en tarjetas -->
+        <div class="col-md-4">
+            <div class="card" style="background-color: #158ddd; color:white; height: 60px;">
+                <p style="font-size: 30px;">Información:</p>
+            </div>
+            <div class="card">
+                <h2>¿Qué preguntar?</h2>
+                <ul>
+                    <li>📌 Temas relacionados con la deserción en la educación:</li>
+                    <li> ¿Qué es la deserción?.</li>
+                    <li> ¿Cuáles son las causas comunes de la deserción?.</li>
+                    <li>📌 Temas relacionados a la aplicación web:</li>
+                    <li> ¿Cómo funciona la aplicación?.</li>
+                    <li> ¿Qué tipo de datos necesita la aplicación?.</li>
+                    <li> ¿Cómo funciona el modelo de Machine Learning?.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>📊 Parámetros:</h2>
+                <p>✅ Únicamente responderá temas enfocados en la deserción.</p>
+                <p>✅ Únicamente responderá temas enfocados en la aplicación web.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+{% endblock %}

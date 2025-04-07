@@ -1,0 +1,57 @@
+{% extends './layout.html' %}
+
+{% block title %} Descargar Archivo DynamoDB {% endblock %}
+
+{% block body %}
+<h1 class="text-center">Descargar Archivo desde DynamoDB</h1>
+
+<!-- Mostrar mensaje de error si existe -->
+{% if mensaje_error %}
+    <div class="alert alert-danger" role="alert">
+        {{ mensaje_error }}
+    </div>
+{% endif %}
+
+
+{% if archivo_generado %}
+    <!-- DESCARGAR -->
+<div class="card p-4 shadow-sm" id="form-csv">
+    <form onsubmit="return false;" >
+        <div class="mb-3">
+            <label for="archivo_csv" class="form-label">Descargar XLSX procesado desde DynamoDB</label>
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('descargarDynamo_handler.descargar_Dynamo') }}"class="btn-custom"> ⬇️ Descargar</a>
+        </div>
+    </form>
+</div>
+{% else %}
+ <!-- GENERAR DESCARGA -->
+<div class="card p-4 shadow-sm" id="form-xlsx">
+    <form action="{{ url_for('descargarDynamo_handler.procesar_Dynamo') }}" method="post">
+        <div class="mb-3">
+            <label for="archivo_xlsx" class="form-label">Convertir a XLSX registros desde DynamoDB</label>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn-custom">Generar Archivo</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+<!-- Contenedor del spinner -->
+<div class="text-center mt-5" id="spinner-container" style="min-height: 300px; display: none;">
+    <div class="spinner"></div> <!-- Spinner -->
+    <h2>Generando archivo...</h2>
+</div>
+
+
+<div class="text-center mt-4 fade-in">
+    <a href="/" class="btn btn-outline-secondary btn-volver">Volver a la página principal</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+{% endblock %}

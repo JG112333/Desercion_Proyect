@@ -1,0 +1,37 @@
+{% extends './layout.html' %}
+ 
+{% block title %}Resultados de Predicción{% endblock %}
+ 
+{% block body %}
+<div class="card p-4 fade-in">
+<h1 class="mb-4 text-center">Resultado de la Predicción</h1>
+ 
+    <div class="row align-items-center resultado-container">
+    <!-- Columna de texto -->
+    <div class="col-md-6 resultado-texto text-center"> <!-- Centrado de todo el contenido -->
+    <h1 class="mb-4 text-center">Resultado: <span class="text-danger">{{ resultado }}</span></h1>
+ 
+    <div class="lead fs-4 fw-bold text-center">
+        Probabilidad de no deserción: <strong>{{ probabilidad * 100 }}%</strong>
+    </div>
+    <div class="lead fs-4 fw-bold text-center">
+        Probabilidad de deserción: <strong>{{ probabilidad_desercion * 100 }}%</strong>
+    </div>
+    </div>
+ 
+    <!-- Columna de imagen -->
+    <div class="col-md-6 resultado-imagen">
+    <!-- Mostrar la imagen generada en memoria -->
+    <img src="data:image/png;base64,{{ chart_img }}" alt="Gráfico de Probabilidad" class="img-fluid rounded shadow-sm">
+    </div>
+    </div>
+ 
+    <div class="text-center mt-4">
+    <a href="/" class="btn btn-outline-secondary btn-volver">Volver a la página principal</a>
+    </div>
+</div>
+{% endblock %}
+ 
+{% block scripts %}
+{{ super() }}
+{% endblock %}
