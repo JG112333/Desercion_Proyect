@@ -1,5 +1,6 @@
 from flask import Flask
 import logging
+import os
 from routes.home import home_bp
 from routes.predict import predict_bp
 from routes.csv_handler import csv_bp
@@ -9,6 +10,7 @@ from routes.chatbot_handler import chatbot_bp
 from routes.trans_xlsx_handler import trans_xlsx_bp
 from routes.trans_csv_handler import trans_csv_bp
 from routes.descargarDynamo_handler import descargarDynamo_bp
+
 
 app = Flask(__name__)
 
@@ -37,4 +39,4 @@ app.register_blueprint(descargarDynamo_bp)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
